@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Machete de HTML y CSS</title>
+<meta name="description" content="Apunte de consulta de HTML y CSS para el curso de Diseño Web, nivel Fundamentos.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,700;12..96,800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=JetBrains+Mono:wght@400;500;700&display=swap">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<style>
+:root{
+  --bg:#FCFCFD; --surface:#FFFFFF; --sunken:#F3F4F7;
+  --ink:#151A21; --ink-2:#3F4854; --ink-3:#6B7482;
+  --line:#E2E5EB; --line-2:#CFD4DD;
+  --acc:#A6194F; --acc-soft:#FBEDF2; --acc-ink:#7E1039;
+  --ok:#1F6B4A; --ok-soft:#E8F3ED;
+  --bad:#A33124; --bad-soft:#FBECE9;
+  --code-bg:#1A1F27; --code-ink:#DCE3EC; --code-cmt:#7E93A8;
+  --code-tag:#F58BAF; --code-attr:#E4B071; --code-str:#8FCFA5; --code-kw:#9DB8F5;
+  --radius:10px;
+  --f-disp:"Bricolage Grotesque","Trebuchet MS",sans-serif;
+  --f-body:"Source Serif 4",Georgia,serif;
+  --f-mono:"JetBrains Mono","Consolas",monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F1319; --surface:#151A21; --sunken:#1B222B;
+    --ink:#E7EAEF; --ink-2:#B4BDC9; --ink-3:#818C9B;
+    --line:#252D38; --line-2:#333D4A;
+    --acc:#F58BAF; --acc-soft:#2A1621; --acc-ink:#FBB6CE;
+    --ok:#79C79E; --ok-soft:#14251C;
+    --bad:#E89184; --bad-soft:#2A1714;
+    --code-bg:#0A0D12; --code-ink:#DCE3EC;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F1319; --surface:#151A21; --sunken:#1B222B;
+  --ink:#E7EAEF; --ink-2:#B4BDC9; --ink-3:#818C9B;
+  --line:#252D38; --line-2:#333D4A;
+  --acc:#F58BAF; --acc-soft:#2A1621; --acc-ink:#FBB6CE;
+  --ok:#79C79E; --ok-soft:#14251C;
+  --bad:#E89184; --bad-soft:#2A1714;
+  --code-bg:#0A0D12; --code-ink:#DCE3EC;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:var(--f-body); font-size:17px; line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:var(--acc-ink)}
+:root[data-theme="dark"] a, :root:not([data-theme="light"]) a{}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) a{color:var(--acc-ink)}}
+:focus-visible{outline:2px solid var(--acc); outline-offset:2px; border-radius:3px}
+
+/* ---------- portada ---------- */
+.hero{
+  border-bottom:1px solid var(--line); background:var(--surface);
+  padding:clamp(2.4rem,6vw,4.2rem) 1.5rem clamp(2rem,4vw,3rem);
+}
+.hero-in{max-width:1180px; margin:0 auto}
+.eyebrow{
+  font-family:var(--f-mono); font-size:.72rem; letter-spacing:.16em;
+  text-transform:uppercase; color:var(--acc); margin:0 0 .9rem;
+}
+.hero h1{
+  font-family:var(--f-disp); font-weight:800; letter-spacing:-.02em;
+  font-size:clamp(2.4rem,6.5vw,4rem); line-height:1.02; margin:0 0 .6rem;
+  text-wrap:balance;
+}
+.hero h1 .ab{color:var(--acc); font-weight:400}
+.hero p{max-width:56ch; color:var(--ink-2); margin:0 0 1.4rem; font-size:1.05rem}
+.hero-meta{display:flex; flex-wrap:wrap; gap:.5rem}
+.chip{
+  font-family:var(--f-mono); font-size:.74rem; letter-spacing:.04em;
+  padding:.34rem .66rem; border:1px solid var(--line-2); border-radius:100px;
+  color:var(--ink-2); background:var(--bg);
+}
+
+/* ---------- estructura ---------- */
+.wrap{max-width:1180px; margin:0 auto; padding:0 1.5rem;
+  display:grid; grid-template-columns:250px minmax(0,1fr); gap:3rem; align-items:start}
+.side{position:sticky; top:0; max-height:100vh; overflow-y:auto;
+  padding:2.2rem 0 3rem; font-family:var(--f-disp)}
+.nav-grupo{margin-bottom:1.5rem}
+.nav-rot{display:block; font-family:var(--f-mono); font-size:.68rem; letter-spacing:.16em;
+  text-transform:uppercase; color:var(--acc)}
+.nav-sub{display:block; font-size:.95rem; font-weight:700; color:var(--ink); margin-bottom:.45rem}
+.side ul{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:.1rem;
+  border-left:1px solid var(--line)}
+.side li a{display:block; padding:.26rem .7rem; font-size:.86rem; color:var(--ink-3);
+  text-decoration:none; border-left:2px solid transparent; margin-left:-1px}
+.side li a:hover{color:var(--ink); background:var(--sunken)}
+.side li a.on{color:var(--acc-ink); border-left-color:var(--acc); font-weight:600}
+
+.main{padding:2.2rem 0 6rem; min-width:0}
+
+.clase-sep{margin:3.4rem 0 1.6rem; padding-top:1.6rem; border-top:2px solid var(--ink)}
+.clase-sep:first-child{margin-top:.4rem; padding-top:0; border-top:none}
+.clase-n{font-family:var(--f-mono); font-size:.72rem; letter-spacing:.16em;
+  text-transform:uppercase; color:var(--acc)}
+.clase-sep h2{font-family:var(--f-disp); font-weight:800; letter-spacing:-.015em;
+  font-size:clamp(1.7rem,3.6vw,2.3rem); margin:.15rem 0 0; text-wrap:balance}
+
+.tema{scroll-margin-top:1.5rem; margin-bottom:3rem}
+.tema-h{font-family:var(--f-mono); font-size:1.02rem; font-weight:700; letter-spacing:-.01em;
+  color:var(--ink); margin:0 0 1rem; padding-bottom:.5rem; border-bottom:1px solid var(--line)}
+.tema-h .ab{color:var(--acc); font-weight:400}
+.tema h3{font-family:var(--f-disp); font-weight:700; font-size:1.12rem; margin:1.9rem 0 .6rem}
+.tema h4{font-family:var(--f-disp); font-weight:700; font-size:1rem; margin:0 0 .4rem}
+.tema p{margin:0 0 .9rem; max-width:68ch}
+.tenue{color:var(--ink-3); font-size:.94rem}
+.mono, code{font-family:var(--f-mono); font-size:.88em}
+p code, li code, td code, dd code{background:var(--sunken); padding:.08em .34em;
+  border-radius:4px; color:var(--acc-ink); white-space:nowrap}
+.lista{margin:0 0 1rem; padding-left:1.15rem; max-width:68ch}
+.lista li{margin-bottom:.35rem}
+
+/* ---------- bloques de código ---------- */
+.code{margin:1rem 0 1.3rem; border-radius:var(--radius); overflow:hidden; background:var(--code-bg);
+  border:1px solid var(--line)}
+.code-bar{display:flex; justify-content:space-between; align-items:center;
+  padding:.4rem .8rem; background:rgba(255,255,255,.04); border-bottom:1px solid rgba(255,255,255,.07)}
+.lang{font-family:var(--f-mono); font-size:.64rem; letter-spacing:.14em; color:var(--code-cmt)}
+.copy{font-family:var(--f-mono); font-size:.68rem; letter-spacing:.06em; cursor:pointer;
+  background:transparent; color:var(--code-cmt); border:1px solid rgba(255,255,255,.16);
+  border-radius:5px; padding:.16rem .5rem}
+.copy:hover{color:#fff; border-color:rgba(255,255,255,.4)}
+.copy.ok{color:var(--code-str); border-color:var(--code-str)}
+.code pre{margin:0; padding:.95rem 1.1rem; overflow-x:auto}
+pre code{font-family:var(--f-mono); font-size:.82rem; line-height:1.75; color:var(--code-ink)}
+
+.hljs-comment{color:var(--code-cmt); font-style:italic}
+.hljs-tag,.hljs-name,.hljs-selector-tag{color:var(--code-tag)}
+.hljs-attr,.hljs-attribute,.hljs-selector-class,.hljs-selector-id,.hljs-selector-pseudo{color:var(--code-attr)}
+.hljs-string{color:var(--code-str)}
+.hljs-keyword,.hljs-number,.hljs-built_in,.hljs-meta{color:var(--code-kw)}
+
+/* ---------- comparación ---------- */
+.cmp{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:.9rem; margin:1rem 0 1.3rem}
+.cmp-col{border-radius:var(--radius); overflow:hidden; border:1px solid var(--line)}
+.cmp-bad{background:var(--bad-soft)} .cmp-good{background:var(--ok-soft)}
+.cmp-tag{display:block; font-family:var(--f-mono); font-size:.66rem; letter-spacing:.12em;
+  text-transform:uppercase; padding:.45rem .8rem}
+.cmp-bad .cmp-tag{color:var(--bad)} .cmp-good .cmp-tag{color:var(--ok)}
+.cmp-col pre{margin:0; padding:0 .9rem .85rem; overflow-x:auto}
+.cmp-col pre code{color:var(--ink-2); font-size:.8rem}
+
+/* ---------- notas ---------- */
+.note{margin:1rem 0; padding:.85rem 1rem; border-radius:var(--radius);
+  font-size:.95rem; max-width:70ch; line-height:1.6}
+.note b{font-family:var(--f-disp); font-weight:700}
+.note-clave{background:var(--acc-soft); color:var(--ink-2)}
+.note-clave b{color:var(--acc-ink)}
+.note-ojo{background:var(--sunken); color:var(--ink-2); border:1px solid var(--line)}
+.note-ojo b{color:var(--ink)}
+
+/* ---------- fichas ---------- */
+.grid-2{display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:1rem; margin:1rem 0 1.3rem}
+.grid-3{display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:1rem; margin:1rem 0 1.3rem}
+.ficha{background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:1rem 1.1rem}
+.ficha p{font-size:.93rem; margin:0 0 .5rem}
+.ficha p:last-child{margin-bottom:0}
+.ficha .cmp-tag{padding:0 0 .3rem}
+.ficha-mal .cmp-tag{color:var(--bad)} .ficha-bien .cmp-tag{color:var(--ok)}
+.ficha-tibio .cmp-tag{color:var(--ink-3)}
+.ficha-bien{border-color:var(--ok)}
+
+/* ---------- tablas ---------- */
+.tabla{width:100%; border-collapse:collapse; margin:.9rem 0 1.3rem; font-size:.93rem; display:table}
+.tabla th{background:var(--ink); color:var(--bg); font-family:var(--f-disp); font-weight:700;
+  text-align:left; padding:.6rem .75rem; font-size:.86rem}
+.tabla td{border:1px solid var(--line); padding:.6rem .75rem; vertical-align:top; background:var(--surface)}
+.tabla tr:nth-child(even) td{background:var(--sunken)}
+.tabla-err td:first-child{font-weight:600}
+
+/* ---------- wireframe semántico ---------- */
+.wire{display:flex; flex-direction:column; gap:4px; margin:1.1rem 0 1.4rem;
+  font-family:var(--f-mono); font-size:.82rem}
+.wire-box{padding:.6rem .8rem; border-radius:6px; color:#fff}
+.wire-box span{display:block; font-family:var(--f-body); font-size:.8rem; opacity:.85; margin-top:.1rem}
+.wire-header{background:var(--acc)}
+.wire-nav{background:var(--acc); opacity:.75}
+.wire-row{display:flex; gap:4px}
+.wire-main{flex:2.4; background:var(--sunken); color:var(--ink); min-height:110px}
+.wire-aside{flex:1; background:var(--line); color:var(--ink); min-height:110px}
+.wire-footer{background:var(--ink); color:var(--bg)}
+
+/* ---------- modelo de caja ---------- */
+.boxmodel{margin:1.1rem 0 .6rem; font-family:var(--f-mono); font-size:.78rem}
+.bm{padding:1.4rem .8rem .8rem; position:relative; border-radius:6px}
+.bm span{position:absolute; top:.35rem; left:.7rem; font-size:.72rem}
+.bm-margin{background:var(--sunken); color:var(--ink-3)}
+.bm-border{background:var(--acc); color:#fff}
+.bm-padding{background:var(--acc-soft); color:var(--acc-ink)}
+.bm-content{background:var(--surface); color:var(--ink); text-align:center;
+  padding:1.6rem .8rem; border:1px dashed var(--line-2)}
+.bm-content span{position:static; display:block}
+
+/* ---------- glosario ---------- */
+.glosario{margin:.8rem 0 0; display:grid; gap:.1rem}
+.gl{display:grid; grid-template-columns:190px minmax(0,1fr); gap:1rem;
+  padding:.7rem 0; border-top:1px solid var(--line)}
+.gl dt{font-family:var(--f-disp); font-weight:700; font-size:.98rem}
+.gl dd{margin:0; color:var(--ink-2); font-size:.95rem}
+
+/* ---------- pie ---------- */
+.pie{border-top:1px solid var(--line); background:var(--surface); padding:2rem 1.5rem 3rem}
+.pie-in{max-width:1180px; margin:0 auto; color:var(--ink-3); font-size:.9rem}
+
+@media (max-width:900px){
+  .wrap{grid-template-columns:1fr; gap:0}
+  .side{position:static; max-height:none; padding:1.6rem 0 0;
+    border-bottom:1px solid var(--line); margin-bottom:1rem}
+  .side ul{border-left:none; flex-direction:row; flex-wrap:wrap; gap:.3rem}
+  .side li a{border-left:none; border:1px solid var(--line); border-radius:100px; padding:.2rem .6rem;
+    margin-left:0; font-size:.8rem}
+  .side li a.on{border-color:var(--acc)}
+  .gl{grid-template-columns:1fr; gap:.15rem}
+  body{font-size:16px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important; transition:none!important}}
+</style>
+
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-in">
+    <p class="eyebrow">Diseño Web · Nivel Fundamentos</p>
+    <h1><span class="ab">&lt;</span>Machete de HTML y CSS<span class="ab">&gt;</span></h1>
+    <p>Todo lo que entra en las cuatro clases, en un solo lugar: la sintaxis, los ejemplos listos para copiar y el diccionario de errores para cuando algo no funciona. Tenelo abierto en una pestaña mientras armás tu proyecto.</p>
+    <div class="hero-meta">
+      <span class="chip">18 temas · 4 clases</span>
+      <span class="chip">código copiable</span>
+      <span class="chip">16 errores frecuentes</span>
+      <span class="chip">glosario</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <nav class="side" aria-label="Índice del apunte"><div class="nav-grupo"><span class="nav-rot">Clase 1</span><span class="nav-sub">Que el sitio exista</span><ul><li><a href="#archivos">Archivos y carpetas</a></li><li><a href="#rutas">Rutas</a></li><li><a href="#estructura">La estructura del documento</a></li><li><a href="#texto">Texto: títulos, párrafos y listas</a></li><li><a href="#imagenes">Imágenes</a></li></ul></div><div class="nav-grupo"><span class="nav-rot">Clase 2</span><span class="nav-sub">Que el sitio se recorra</span><ul><li><a href="#semantica">Etiquetas semánticas</a></li><li><a href="#enlaces">Enlaces</a></li><li><a href="#anclas">Anclas</a></li><li><a href="#tablas">Tablas</a></li></ul></div><div class="nav-grupo"><span class="nav-rot">Clase 3</span><span class="nav-sub">Que el sitio se vea</span><ul><li><a href="#css-vincular">Cómo se vincula el CSS</a></li><li><a href="#selectores">Selectores</a></li><li><a href="#propiedades">Propiedades más usadas</a></li><li><a href="#caja">El modelo de caja</a></li><li><a href="#pseudoclases">Pseudo-clases de enlace</a></li><li><a href="#maquetar">Maquetar: menú, galería y tablas</a></li></ul></div><div class="nav-grupo"><span class="nav-rot">Clase 4</span><span class="nav-sub">Que el sitio responda</span><ul><li><a href="#formularios">Formularios</a></li><li><a href="#multimedia">Video y audio</a></li><li><a href="#responsive">Responsive</a></li></ul></div><div class="nav-grupo"><span class="nav-rot">Consulta</span><span class="nav-sub">Cuando algo falla</span><ul><li><a href="#errores">Diccionario de errores</a></li><li><a href="#glosario">Glosario</a></li></ul></div></nav>
+  <main class="main"><div class="clase-sep"><span class="clase-n">Clase 1</span><h2>Que el sitio exista</h2></div><section id="archivos" class="tema"><h3 class="tema-h"><span class="ab">&lt;</span>Archivos y carpetas<span class="ab">&gt;</span></h3>
+<p>Antes de escribir una sola etiqueta, la carpeta tiene que estar armada. Esto es una fila entera de la rúbrica.</p>
+<div class="code"><div class="code-bar"><span class="lang">PLAINTEXT</span><button class="copy" type="button">copiar</button></div><pre><code class="language-plaintext">apellido-nombre-diseno-web/
+  index.html          &lt;-- la página principal, SIEMPRE con este nombre
+  programa.html
+  galeria.html
+  contacto.html
+  css/
+    estilos.css       &lt;-- un solo archivo para todo el sitio
+  img/
+    logo.svg   foto-1.jpg   foto-2.jpg
+  docs/
+    reglamento.pdf
+  video/
+    resumen.mp4</code></pre></div>
+<h3>Cómo se nombran los archivos</h3>
+<ul class="lista">
+  <li>Todo en <b>minúscula</b>, sin espacios, sin acentos y sin ñ.</li>
+  <li>Palabras separadas con <b>guion medio</b>: <code>galeria-de-fotos.html</code></li>
+  <li>La página principal se llama <code>index.html</code>. Siempre.</li>
+  <li>Las mayúsculas importan: para la web, <code>Foto.jpg</code> y <code>foto.jpg</code> son dos archivos distintos.</li>
+</ul>
+<div class="cmp"><div class="cmp-col cmp-bad"><span class="cmp-tag">Así no</span><pre><code class="language-plaintext">Galería De Fotos.html
+Foto 1.JPG
+Estilos CSS.css</code></pre></div><div class="cmp-col cmp-good"><span class="cmp-tag">Así sí</span><pre><code class="language-plaintext">galeria-de-fotos.html
+foto-1.jpg
+estilos.css</code></pre></div></div></section><section id="rutas" class="tema"><h3 class="tema-h"><span class="ab">&lt;</span>Rutas<span class="ab">&gt;</span></h3>
+<p>Una ruta es la dirección de un archivo. Hay dos tipos y solo una sirve para un proyecto que se entrega.</p>
+<div class="grid-2">
+  <div class="ficha">
+    <h4>Ruta relativa</h4>
+    <p>Parte desde la carpeta del proyecto. Funciona en cualquier computadora, porque la carpeta viaja con el sitio.</p>
+    <p class="mono">img/foto.jpg<br>css/estilos.css<br>docs/reglamento.pdf</p>
+  </div>
+  <div class="ficha">
+    <h4>Ruta absoluta</h4>
+    <p>Parte de la raíz del disco o de internet. Para archivos propios no sirve: en otra computadora esa carpeta no existe.</p>
+    <p class="mono">C:\Users\Ana\Escritorio\foto.jpg<br>https://www.wikipedia.org</p>
+  </div>
+</div>
+<aside class="note note-clave"><b>La regla:</b> si en tu código aparece <code>C:\</code> o <code>/Users/</code>, está mal. Lo único que va con ruta absoluta son los enlaces a sitios de internet.</aside>
+<h3>Subir un nivel</h3>
+<p>Si un día tenés un archivo dentro de una subcarpeta y necesitás salir de ella, se usan dos puntos:</p>
+<div class="code"><div class="code-bar"><span class="lang">PLAINTEXT</span><button class="copy" type="button">copiar</button></div><pre><code class="language-plaintext">img/foto.jpg        &lt;!-- entrar a la carpeta img --&gt;
+../index.html       &lt;!-- subir un nivel y buscar index.html --&gt;</code></pre></div></section><section id="estructura" class="tema"><h3 class="tema-h"><span class="ab">&lt;</span>La estructura del documento<span class="ab">&gt;</span></h3>
+<p>Toda página HTML arranca igual. Este bloque se escribe una vez y se copia en cada página nueva.</p>
+<div class="code"><div class="code-bar"><span class="lang">HTML</span><button class="copy" type="button">copiar</button></div><pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;es&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+  &lt;title&gt;Festival Raíces | Inicio&lt;/title&gt;
+  &lt;link rel=&quot;stylesheet&quot; href=&quot;css/estilos.css&quot;&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+  &lt;!-- Todo lo que se VE va acá adentro --&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre></div>
+<table class="tabla">
+  <tr><th>Etiqueta</th><th>Para qué sirve</th></tr>
+  <tr><td class="mono">&lt;!DOCTYPE html&gt;</td><td>Le avisa al navegador que el documento es HTML5. No es una etiqueta: es una declaración, y va siempre en la primera línea.</td></tr>
+  <tr><td class="mono">&lt;html lang="es"&gt;</td><td>Envuelve todo el documento. <code>lang</code> declara el idioma del contenido.</td></tr>
+  <tr><td class="mono">&lt;head&gt;</td><td>La ficha técnica de la página: información sobre el documento. No se ve.</td></tr>
+  <tr><td class="mono">&lt;meta charset="UTF-8"&gt;</td><td>La codificación de caracteres. Sin esto, los acentos y la ñ se ven como símbolos raros.</td></tr>
+  <tr><td class="mono">&lt;title&gt;</td><td>El texto que aparece en la pestaña del navegador. Distinto en cada página.</td></tr>
+  <tr><td class="mono">&lt;body&gt;</td><td>La página propiamente dicha: todo lo que se ve.</td></tr>
+</table>
+<aside class="note note-ojo"><b>Síntoma:</b> aparecen <span class='mono'>Ã¡</span> o <span class='mono'>Ã±</span> en vez de acentos → falta el <code>meta charset</code>.</aside></section><section id="texto" class="tema"><h3 class="tema-h"><span class="ab">&lt;</span>Texto: títulos, párrafos y listas<span class="ab">&gt;</span></h3>
+<h3>Encabezados</h3>
+<p>Van de <code>h1</code> a <code>h6</code>. La jerarquía es <b>semántica</b>, no de tamaño: si un título te parece grande, lo achicás con CSS, nunca bajando de nivel.</p>
+<div class="code"><div class="code-bar"><span class="lang">HTML</span><button class="copy" type="button">copiar</button></div><pre><code class="language-html">&lt;h1&gt;Festival Raíces&lt;/h1&gt;            &lt;!-- uno solo por página --&gt;
+
+  &lt;h2&gt;Qué es el festival&lt;/h2&gt;
+     &lt;h3&gt;Cómo llegar&lt;/h3&gt;
+     &lt;h3&gt;Dónde comer&lt;/h3&gt;
+
+  &lt;h2&gt;Programa&lt;/h2&gt;
+     &lt;h3&gt;Viernes&lt;/h3&gt;</code></pre></div>
+<h3>Párrafos y listas</h3>
+<div class="code"><div class="code-bar"><span class="lang">HTML</span><button class="copy" type="button">copiar</button></div><pre><code class="language-html">&lt;p&gt;Todo el texto corrido va dentro de una etiqueta p.&lt;/p&gt;
+
+&lt;!-- ul: lista SIN orden. Los ítems no tienen secuencia. --&gt;
+&lt;ul&gt;
+  &lt;li&gt;Tres escenarios con música en vivo&lt;/li&gt;
+  &lt;li&gt;Feria de discos independientes&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;!-- ol: lista ORDENADA. El orden importa: pasos, rankings. --&gt;
+&lt;ol&gt;
+  &lt;li&gt;Tomá el colectivo 57 hasta Parque Central.&lt;/li&gt;
+  &lt;li&gt;Ingresá por el portón de la calle Belgrano.&lt;/li&gt;
+&lt;/ol&gt;</code></pre></div><aside class="note note-clave"><b>Recordá:</b> <code>li</code> va siempre dentro de un <code>ul</code> o de un <code>ol</code>. Nunca suelto.</aside></section><section id="imagenes" class="tema"><h3 class="tema-h"><span class="ab">&lt;</span>Imágenes<span class="ab">&gt;</span></h3>
+<p><code>img</code> es una etiqueta <b>sin cierre</b>: se abre y se cierra sola. No existe <code>&lt;/img&gt;</code>.</p>
+<div class="code"><div class="code-bar"><span class="lang">HTML</span><button class="copy" type="button">copiar</button></div><pre><code class="language-html">&lt;img src=&quot;img/escenario.jpg&quot; alt=&quot;Escenario principal iluminado de noche&quot;&gt;
+
+&lt;!-- con epígrafe --&gt;
+&lt;figure&gt;
+  &lt;img src=&quot;img/feria.jpg&quot; alt=&quot;Puestos con cajas de vinilos&quot;&gt;
+  &lt;figcaption&gt;Feria de discos, edición 2025&lt;/figcaption&gt;
+&lt;/figure&gt;</code></pre></div>
+<table class="tabla">
+  <tr><th>Atributo</th><th>Qué hace</th></tr>
+  <tr><td class="mono">src</td><td>Dónde está la imagen. Siempre ruta relativa.</td></tr>
+  <tr><td class="mono">alt</td><td>Qué se ve en la imagen. Lo leen los lectores de pantalla y aparece si la imagen falla. No es opcional.</td></tr>
+</table>
+<h3>Qué formato elegir</h3>
+<table class="tabla">
+  <tr><th>Formato</th><th>Cuándo</th><th>Ojo con</th></tr>
+  <tr><td class="mono">.jpg</td><td>Fotografías, muchos colores y degradados.</td><td>No admite transparencia.</td></tr>
+  <tr><td class="mono">.png</td><td>Logos, capturas, cualquier cosa con fondo transparente.</td><td>Pesa más que un jpg.</td></tr>
+  <tr><td class="mono">.svg</td><td>Logos e íconos vectoriales.</td><td>No sirve para fotos.</td></tr>
+  <tr><td class="mono">.gif</td><td>Animaciones simples y cortas.</td><td>Pocos colores. Casi siempre conviene un video.</td></tr>
+</table>
+<aside class="note note-ojo"><b>Antes de subir una foto,</b> redimensionala. Una imagen de 5000 px de ancho hace que la página tarde una eternidad en cargar, y la rúbrica evalúa que no estén pixeladas ni deformadas.</aside></section><div class="clase-sep"><span class="clase-n">Clase 2</span><h2>Que el sitio se recorra</h2></div><section id="semantica" class="tema"><h3 class="tema-h"><span class="ab">&lt;</span>Etiquetas semánticas<span class="ab">&gt;</span></h3>
+<p>Las etiquetas semánticas dicen <b>qué papel cumple</b> cada parte de la página. Un sitio hecho todo con <code>div</code> funciona, pero pierde puntos en la rúbrica y es más difícil de leer.</p>
+<div class="wire">
+  <div class="wire-box wire-header">&lt;header&gt; <span>logo y nombre del sitio</span></div>
+  <div class="wire-box wire-nav">&lt;nav&gt; <span>el menú</span></div>
+  <div class="wire-row">
+    <div class="wire-box wire-main">&lt;main&gt;<span>el contenido propio de esta página, dividido en &lt;section&gt; y &lt;article&gt;</span></div>
+    <div class="wire-box wire-aside">&lt;aside&gt;<span>info secundaria</span></div>
+  </div>
+  <div class="wire-box wire-footer">&lt;footer&gt; <span>tu nombre, la institución y la fecha</span></div>
+</div>
+<div class="code"><div class="code-bar"><span class="lang">HTML</span><button class="copy" type="button">copiar</button></div><pre><code class="language-html">&lt;body&gt;
+  &lt;header&gt;
+    &lt;img src=&quot;img/logo.svg&quot; alt=&quot;Logotipo del Festival Raíces&quot;&gt;
+    &lt;h1&gt;Festival Raíces&lt;/h1&gt;
+  &lt;/header&gt;
+
+  &lt;nav&gt;
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;index.html&quot;&gt;Inicio&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;programa.html&quot;&gt;Programa&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/nav&gt;
+
+  &lt;main&gt;
+    &lt;section id=&quot;presentacion&quot;&gt;
+      &lt;h2&gt;Qué es el festival&lt;/h2&gt;
+      &lt;p&gt;...&lt;/p&gt;
+    &lt;/section&gt;
+
+    &lt;aside&gt;
+      &lt;h2&gt;Novedad 2026&lt;/h2&gt;
+      &lt;p&gt;...&lt;/p&gt;
+    &lt;/aside&gt;
+  &lt;/main&gt;
+
+  &lt;footer&gt;
+    &lt;p&gt;Alumno/a: Nombre y Apellido — noviembre 2026&lt;/p&gt;
+  &lt;/footer&gt;
+&lt;/body&gt;</code></pre></div>
+<h3>La duda de siempre: section, article o div</h3>
+<div class="grid-3">
+  <div class="ficha"><h4 class="mono">&lt;section&gt;</h4><p>Un bloque temático <b>dentro de tu sitio</b>: «Programa», «Contacto», «Cómo llegar».</p><p class="tenue">Ante la duda, section.</p></div>
+  <div class="ficha"><h4 class="mono">&lt;article&gt;</h4><p>Contenido que <b>se entiende solo</b>, fuera del sitio: una noticia, la ficha de una banda, una receta.</p></div>
+  <div class="ficha"><h4 class="mono">&lt;div&gt;</h4><p>Una caja neutra que no significa nada. Último recurso, cuando solo necesitás agrupar algo para darle estilo.</p></div>
+</div>
+<aside class="note note-clave"><b>En el coloquio:</b> te van a preguntar por qué usaste cada una. La justificación vale tanto como el resultado.</aside>
+<h3>div y span: los divisores neutros</h3>
+<p>Ninguna de las dos significa nada por sí misma. Se usan cuando hace falta agrupar algo solo para darle estilo y ninguna etiqueta semántica describe ese contenido.</p>
+<table class="tabla">
+  <tr><th>Etiqueta</th><th>Tipo</th><th>Para qué</th></tr>
+  <tr><td class="mono">&lt;div&gt;</td><td>De bloque: ocupa todo el ancho y empuja hacia abajo.</td><td>Agrupar varios elementos en una caja: una galería, una fila de tarjetas.</td></tr>
+  <tr><td class="mono">&lt;span&gt;</td><td>En línea: se acomoda dentro del renglón de texto.</td><td>Marcar unas palabras dentro de un párrafo para darles otro color o tamaño.</td></tr>
+</table>
+<div class="code"><div class="code-bar"><span class="lang">HTML</span><button class="copy" type="button">copiar</button></div><pre><code class="language-html">&lt;div class=&quot;galeria&quot;&gt;
+  &lt;figure&gt;...&lt;/figure&gt;
+  &lt;figure&gt;...&lt;/figure&gt;
+&lt;/div&gt;
+
+&lt;p&gt;El festival se hace el &lt;span class=&quot;fecha&quot;&gt;13 de noviembre&lt;/span&gt;.&lt;/p&gt;</code></pre></div></section><section id="enlaces" class="tema"><h3 class="tema-h"><span class="ab">&lt;</span>Enlaces<span class="ab">&gt;</span></h3>
+<p>Una sola etiqueta, <code>a</code>, con cuatro usos distintos según lo que pongas en <code>href</code>.</p>
+<div class="code"><div class="code-bar"><span class="lang">HTML</span><button class="copy" type="button">copiar</button></div><pre><code class="language-html">&lt;!-- 1. Otra página del mismo sitio: ruta relativa --&gt;
+&lt;a href=&quot;programa.html&quot;&gt;Programa&lt;/a&gt;
+
+&lt;!-- 2. Un sitio externo: ruta absoluta, y se abre en pestaña nueva --&gt;
+&lt;a href=&quot;https://www.wikipedia.org&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Wikipedia&lt;/a&gt;
+
+&lt;!-- 3. Un documento para descargar --&gt;
+&lt;a href=&quot;docs/reglamento.pdf&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Reglamento (PDF)&lt;/a&gt;
+
+&lt;!-- 4. Un correo electrónico, con el asunto ya cargado --&gt;
+&lt;a href=&quot;mailto:info@ejemplo.com?subject=Consulta%20desde%20el%20sitio&quot;&gt;Escribinos&lt;/a&gt;</code></pre></div><aside class="note note-clave"><b>rel="noopener"</b> acompaña siempre a <code>target="_blank"</code>. Evita que la página que se abre pueda manipular la tuya.</aside>
+<h3>mailto con asunto y cuerpo</h3>
+<div class="code"><div class="code-bar"><span class="lang">HTML</span><button class="copy" type="button">copiar</button></div><pre><code class="language-html">&lt;a href=&quot;mailto:info@ejemplo.com?subject=Consulta&amp;body=Hola,%20quería%20consultar%20por...&quot;&gt;
+  Escribir un correo ya redactado
+&lt;/a&gt;</code></pre></div><aside class="note note-ojo"><b>Los espacios</b> en el asunto y el cuerpo se escriben <code>%20</code>. Si dejás espacios de verdad, algunos navegadores cortan el enlace.</aside></section><section id="anclas" class="tema"><h3 class="tema-h"><span class="ab">&lt;</span>Anclas<span class="ab">&gt;</span></h3>
+<p>Un ancla salta a un punto exacto de una página. Hacen falta <b>dos partes</b>: sin las dos, el salto no ocurre.</p>
+<div class="code"><div class="code-bar"><span class="lang">HTML</span><button class="copy" type="button">copiar</button></div><pre><code class="language-html">&lt;!-- 1) Marcar el DESTINO con un id --&gt;
+&lt;section id=&quot;horarios&quot;&gt;
+  &lt;h2&gt;Horarios&lt;/h2&gt;
+&lt;/section&gt;
+
+&lt;!-- 2) Apuntar desde la MISMA página --&gt;
+&lt;a href=&quot;#horarios&quot;&gt;Ir a Horarios&lt;/a&gt;
+
+&lt;!-- 3) O desde OTRA página --&gt;
+&lt;a href=&quot;programa.html#horarios&quot;&gt;Ver los horarios&lt;/a&gt;</code></pre></div><aside class="note note-clave"><b>El id es único</b> en cada página: no se repite, no lleva espacios y no empieza con número.</aside><aside class="note note-ojo"><b>Si el ancla no salta:</b> el id no existe, está repetido, tiene un espacio, o lo escribiste con distintas mayúsculas.</aside></section><section id="tablas" class="tema"><h3 class="tema-h"><span class="ab">&lt;</span>Tablas<span class="ab">&gt;</span></h3>
+<p>Las tablas son para <b>datos</b>: horarios, precios, comparaciones. No se usan para maquetar la página.</p>
+<div class="code"><div class="code-bar"><span class="lang">HTML</span><button class="copy" type="button">copiar</button></div><pre><code class="language-html">&lt;table&gt;
+  &lt;caption&gt;Grilla del viernes&lt;/caption&gt;
+
+  &lt;tr&gt;
+    &lt;th&gt;Horario&lt;/th&gt;          &lt;!-- th = celda de ENCABEZADO --&gt;
+    &lt;th&gt;Escenario A&lt;/th&gt;
+    &lt;th&gt;Escenario B&lt;/th&gt;
+  &lt;/tr&gt;
+
+  &lt;tr&gt;                        &lt;!-- tr = una fila --&gt;
+    &lt;td&gt;19:00&lt;/td&gt;            &lt;!-- td = celda de datos --&gt;
+    &lt;td&gt;Las Tardes Largas&lt;/td&gt;
+    &lt;td&gt;Dúo Sur&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;</code></pre></div>
+<h3>colspan y rowspan</h3>
+<p><code>colspan</code> une columnas (a lo ancho). <code>rowspan</code> une filas (a lo alto). Al usarlos hay que <b>recontar las celdas</b>.</p>
+<div class="code"><div class="code-bar"><span class="lang">HTML</span><button class="copy" type="button">copiar</button></div><pre><code class="language-html">&lt;tr&gt;
+  &lt;td rowspan=&quot;2&quot;&gt;18 a 20&lt;/td&gt;   &lt;!-- ocupa DOS filas --&gt;
+  &lt;td&gt;Taller&lt;/td&gt;
+  &lt;td&gt;Marea Baja&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+  &lt;!-- solo 2 td: la primera columna ya está ocupada por el rowspan --&gt;
+  &lt;td&gt;Taller&lt;/td&gt;
+  &lt;td&gt;Fósforo&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+  &lt;td&gt;22:00&lt;/td&gt;
+  &lt;td colspan=&quot;2&quot;&gt;Cierre conjunto&lt;/td&gt;   &lt;!-- ocupa DOS columnas --&gt;
+&lt;/tr&gt;</code></pre></div><aside class="note note-ojo"><b>«Se me desarma la tabla»</b> es casi siempre esto: si una celda ocupa dos columnas, en esa fila va una <code>td</code> menos.</aside><aside class="note note-clave"><b>cellpadding y cellspacing</b> son atributos de HTML antiguo. Hoy el espaciado se resuelve con CSS: <code>padding</code> y <code>border-collapse</code>.</aside></section><div class="clase-sep"><span class="clase-n">Clase 3</span><h2>Que el sitio se vea</h2></div><section id="css-vincular" class="tema"><h3 class="tema-h"><span class="ab">&lt;</span>Cómo se vincula el CSS<span class="ab">&gt;</span></h3>
+<p>Hay tres formas de aplicar estilos. Para el proyecto, solo la tercera es válida.</p>
+<div class="grid-3">
+  <div class="ficha ficha-mal"><span class="cmp-tag">No usar</span><h4>En línea</h4><p class="mono">style="color: red;"</p><p>Hay que repetirlo en cada elemento de cada página. Imposible de mantener.</p></div>
+  <div class="ficha ficha-tibio"><span class="cmp-tag">Solo para probar</span><h4>Interno</h4><p class="mono">&lt;style&gt; ... &lt;/style&gt;</p><p>Sirve para una sola página. Al tener cuatro, hay que copiarlo cuatro veces.</p></div>
+  <div class="ficha ficha-bien"><span class="cmp-tag">Esto pide la rúbrica</span><h4>Externo</h4><p class="mono">&lt;link rel="stylesheet"&gt;</p><p>Un archivo <code>.css</code> compartido: un cambio, y las cuatro páginas cambian.</p></div>
+</div>
+<div class="code"><div class="code-bar"><span class="lang">HTML</span><button class="copy" type="button">copiar</button></div><pre><code class="language-html">&lt;!-- En el &lt;head&gt; de LAS CUATRO páginas --&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;css/estilos.css&quot;&gt;</code></pre></div>
+<h3>Anatomía de una regla</h3>
+<div class="code"><div class="code-bar"><span class="lang">CSS</span><button class="copy" type="button">copiar</button></div><pre><code class="language-css">h2 {                                /* SELECTOR: a qué se le aplica */
+  color: #7A2E2E;                   /* propiedad: valor;            */
+  font-size: 1.5em;
+  border-bottom: 2px solid #D9C7A7;
+}                                   /* la llave cierra la regla     */</code></pre></div><aside class="note note-ojo"><b>Cada declaración termina en punto y coma.</b> Si falta uno, esa regla <b>y las que siguen</b> dejan de funcionar. Es el error más difícil de encontrar: formateá con <b>Shift + Alt + F</b> y mirá dónde se desarma la indentación.</aside></section><section id="selectores" class="tema"><h3 class="tema-h"><span class="ab">&lt;</span>Selectores<span class="ab">&gt;</span></h3>
+<p>Los cuatro selectores del temario.</p>
+<div class="code"><div class="code-bar"><span class="lang">CSS</span><button class="copy" type="button">copiar</button></div><pre><code class="language-css">/* UNIVERSAL: se aplica a absolutamente todo */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* ETIQUETA: a todos los elementos de ese tipo */
+p { line-height: 1.6; }
+
+/* CLASE: lleva punto. Se puede repetir todas las veces que quieras */
+.tarjeta { border: 1px solid #ccc; padding: 10px; }
+
+/* ID: lleva almohadilla. Es ÚNICO en la página */
+#presentacion { border-top: 5px solid #7A2E2E; }</code></pre></div>
+<p>En el HTML el nombre va <b>sin</b> el punto ni la almohadilla:</p>
+<div class="cmp"><div class="cmp-col cmp-bad"><span class="cmp-tag">Así no</span><pre><code class="language-html">&lt;section class=&quot;.tarjeta&quot; id=&quot;#presentacion&quot;&gt;</code></pre></div><div class="cmp-col cmp-good"><span class="cmp-tag">Así sí</span><pre><code class="language-html">&lt;section class=&quot;tarjeta&quot; id=&quot;presentacion&quot;&gt;</code></pre></div></div>
+<h3>Clase o id: el DNI y la camiseta</h3>
+<p>El <b>id</b> es el DNI: uno solo, no se repite. La <b>clase</b> es la camiseta del equipo: la usan todos los que juegan en el mismo equipo. Si algo se va a repetir —tres tarjetas, cinco botones—, es clase.</p>
+<aside class="note note-clave"><b>Nombrá las clases por su función,</b> no por su aspecto: <code>.cabecera</code> y <code>.destacado</code>, nunca <code>.rojo</code> ni <code>.grande</code>. Si mañana cambiás el color, el nombre <code>.rojo</code> queda mintiendo.</aside></section><section id="propiedades" class="tema"><h3 class="tema-h"><span class="ab">&lt;</span>Propiedades más usadas<span class="ab">&gt;</span></h3>
+<p>Las propiedades que entran en el temario, agrupadas por para qué sirven.</p>
+<h3>Texto</h3>
+<table class="tabla">
+  <tr><th>Propiedad</th><th>Qué controla</th><th>Ejemplo</th></tr>
+  <tr><td class="mono">font-family</td><td>La fuente</td><td class="mono">Georgia, serif</td></tr>
+  <tr><td class="mono">font-size</td><td>El tamaño</td><td class="mono">16px · 1.5em</td></tr>
+  <tr><td class="mono">font-style</td><td>Cursiva</td><td class="mono">italic</td></tr>
+  <tr><td class="mono">font-weight</td><td>El grosor</td><td class="mono">bold · 700</td></tr>
+  <tr><td class="mono">font-variant</td><td>Versalitas</td><td class="mono">small-caps</td></tr>
+  <tr><td class="mono">text-transform</td><td>Mayúsculas o minúsculas</td><td class="mono">uppercase</td></tr>
+  <tr><td class="mono">text-decoration</td><td>Subrayado</td><td class="mono">none · underline</td></tr>
+  <tr><td class="mono">text-align</td><td>La alineación</td><td class="mono">left · center · justify</td></tr>
+  <tr><td class="mono">line-height</td><td>El interlineado</td><td class="mono">1.6</td></tr>
+  <tr><td class="mono">color</td><td>El color del texto</td><td class="mono">#2B2B2B</td></tr>
+</table>
+<h3>Fondos y bordes</h3>
+<table class="tabla">
+  <tr><th>Propiedad</th><th>Qué controla</th><th>Ejemplo</th></tr>
+  <tr><td class="mono">background-color</td><td>El color de fondo</td><td class="mono">#F6F3EE</td></tr>
+  <tr><td class="mono">background-image</td><td>Una imagen de fondo</td><td class="mono">url("../img/fondo.jpg")</td></tr>
+  <tr><td class="mono">border</td><td>El borde: grosor, estilo y color</td><td class="mono">1px solid #CCC</td></tr>
+  <tr><td class="mono">border-radius</td><td>Esquinas redondeadas</td><td class="mono">4px</td></tr>
+</table>
+<aside class="note note-ojo"><b>Rutas dentro del CSS:</b> el archivo <code>estilos.css</code> está en <code>css/</code>, así que para llegar a <code>img/</code> hay que subir un nivel: <code>url("../img/fondo.jpg")</code>.</aside></section><section id="caja" class="tema"><h3 class="tema-h"><span class="ab">&lt;</span>El modelo de caja<span class="ab">&gt;</span></h3>
+<p>Todo elemento de una página es una caja con cuatro capas. Con estas cuatro palabras se explica casi todo el espaciado.</p>
+<div class="boxmodel">
+  <div class="bm bm-margin"><span>margin — separación con los elementos de al lado</span>
+    <div class="bm bm-border"><span>border — el marco</span>
+      <div class="bm bm-padding"><span>padding — aire entre el borde y el contenido</span>
+        <div class="bm bm-content"><span>content</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+<p class="tenue">La foto es el contenido. El paspartú entre la foto y el marco es el padding. El marco es el borde. La distancia hasta el cuadro de al lado es el margen.</p>
+<div class="code"><div class="code-bar"><span class="lang">CSS</span><button class="copy" type="button">copiar</button></div><pre><code class="language-css">* { box-sizing: border-box; }   /* el padding y el borde quedan DENTRO del ancho */
+
+.tarjeta {
+  width: 300px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  margin: 16px;
+}
+
+/* Atajos: los valores van en el sentido de las agujas del reloj */
+padding: 10px;                  /* los cuatro lados         */
+padding: 10px 20px;             /* arriba-abajo | costados  */
+padding: 10px 20px 5px 0;       /* arriba derecha abajo izq */</code></pre></div><aside class="note note-clave"><b>margin: 0 auto centra</b> un elemento que tenga un ancho definido. El <code>auto</code> de los costados reparte el espacio sobrante en partes iguales.</aside></section><section id="pseudoclases" class="tema"><h3 class="tema-h"><span class="ab">&lt;</span>Pseudo-clases de enlace<span class="ab">&gt;</span></h3>
+<p>Las cuatro pseudo-clases de enlace. <b>El orden es obligatorio</b>: si lo alterás, <code>hover</code> y <code>active</code> dejan de verse, porque a igual especificidad gana la última regla escrita.</p>
+<div class="code"><div class="code-bar"><span class="lang">CSS</span><button class="copy" type="button">copiar</button></div><pre><code class="language-css">a:link    { color: #7A2E2E; }                              /* sin visitar        */
+a:visited { color: #5C3A5C; }                              /* ya visitado        */
+a:hover   { color: #C9A227; text-decoration: underline; }  /* el mouse encima    */
+a:active  { color: #000000; }                              /* durante el clic    */</code></pre></div><aside class="note note-clave"><b>Regla nemotécnica:</b> <b>L</b>ink, <b>V</b>isited, <b>H</b>over, <b>A</b>ctive — «<b>LoVe HAte</b>».</aside></section><section id="maquetar" class="tema"><h3 class="tema-h"><span class="ab">&lt;</span>Maquetar: menú, galería y tablas<span class="ab">&gt;</span></h3>
+<h3>El menú horizontal</h3>
+<div class="code"><div class="code-bar"><span class="lang">CSS</span><button class="copy" type="button">copiar</button></div><pre><code class="language-css">.menu ul {
+  list-style: none;          /* saca los puntitos                  */
+  display: flex;             /* pone los li uno al lado del otro   */
+  justify-content: center;
+}
+
+.menu a {
+  display: block;            /* el área de clic ocupa toda la caja */
+  padding: 14px 20px;
+  text-decoration: none;
+}</code></pre></div>
+<h3>Centrar el contenido y armar una galería</h3>
+<div class="code"><div class="code-bar"><span class="lang">CSS</span><button class="copy" type="button">copiar</button></div><pre><code class="language-css">main {
+  max-width: 960px;          /* no se estira infinito en pantallas grandes */
+  margin: 24px auto;         /* centrado                                   */
+  padding: 0 16px;
+}
+
+.galeria {
+  display: flex;
+  flex-wrap: wrap;           /* si no entran, bajan de fila */
+  gap: 16px;
+}
+
+.tarjeta { width: 30%; }</code></pre></div><aside class="note note-clave"><b>float y clear</b> era el método histórico para poner cosas al costado. Hoy se usa <code>display: flex</code>, que es más simple y no rompe el resto del diseño. Conviene reconocerlos igual: entran en el temario.</aside>
+<h3>Las cuatro propiedades que mueven las cajas</h3>
+<table class="tabla">
+  <tr><th>Propiedad</th><th>Qué hace</th><th>Valores del temario</th></tr>
+  <tr><td class="mono">display</td><td>Cambia el comportamiento de la caja.</td><td class="mono">block · inline · inline-block · flex · none</td></tr>
+  <tr><td class="mono">float</td><td>Saca el elemento del flujo y lo pega a un costado; el texto lo rodea.</td><td class="mono">left · right · none</td></tr>
+  <tr><td class="mono">clear</td><td>Impide que un elemento quede al lado de uno flotado: lo baja.</td><td class="mono">left · right · both</td></tr>
+  <tr><td class="mono">position</td><td>Cambia cómo se ubica el elemento en la página.</td><td class="mono">static · relative · absolute · fixed</td></tr>
+</table>
+<div class="code"><div class="code-bar"><span class="lang">CSS</span><button class="copy" type="button">copiar</button></div><pre><code class="language-css">/* float: el método histórico. Hay que limpiarlo después. */
+.foto  { float: left; margin-right: 16px; }
+.texto { clear: both; }
+
+/* position */
+.caja     { position: relative; }                        /* se corre respecto de su lugar */
+.etiqueta { position: absolute; top: 8px; right: 8px; }  /* respecto del padre relative   */
+.barra    { position: fixed; bottom: 0; }                /* fija en la pantalla           */</code></pre></div><aside class="note note-ojo"><b>position: absolute</b> se ubica respecto del ancestro más cercano que tenga <code>position: relative</code>. Si ninguno lo tiene, se ubica respecto de la página entera.</aside>
+<h3>Tablas con CSS</h3>
+<div class="code"><div class="code-bar"><span class="lang">CSS</span><button class="copy" type="button">copiar</button></div><pre><code class="language-css">table {
+  border-collapse: collapse;   /* reemplaza a cellspacing=&quot;0&quot; */
+  width: 100%;
+}
+
+th, td {
+  border: 1px solid #CBBFA8;
+  padding: 10px;               /* reemplaza a cellpadding     */
+  text-align: left;
+}
+
+th { background-color: #7A2E2E; color: #FFFFFF; }</code></pre></div></section><div class="clase-sep"><span class="clase-n">Clase 4</span><h2>Que el sitio responda</h2></div><section id="formularios" class="tema"><h3 class="tema-h"><span class="ab">&lt;</span>Formularios<span class="ab">&gt;</span></h3>
+<p>El <code>label</code> es lo que está impreso al lado del renglón; el <code>input</code> es el renglón. El <code>for</code> del label tiene que ser <b>idéntico</b> al <code>id</code> del input.</p>
+<div class="code"><div class="code-bar"><span class="lang">HTML</span><button class="copy" type="button">copiar</button></div><pre><code class="language-html">&lt;form action=&quot;#&quot; method=&quot;post&quot;&gt;
+
+  &lt;label for=&quot;nombre&quot;&gt;Nombre y apellido&lt;/label&gt;
+  &lt;input type=&quot;text&quot; id=&quot;nombre&quot; name=&quot;nombre&quot;
+         placeholder=&quot;Ej.: Ana Pérez&quot; required maxlength=&quot;60&quot;&gt;
+
+  &lt;label for=&quot;correo&quot;&gt;Correo electrónico&lt;/label&gt;
+  &lt;input type=&quot;email&quot; id=&quot;correo&quot; name=&quot;correo&quot; required&gt;
+
+  &lt;label for=&quot;edad&quot;&gt;Edad&lt;/label&gt;
+  &lt;input type=&quot;number&quot; id=&quot;edad&quot; name=&quot;edad&quot; min=&quot;16&quot; max=&quot;99&quot;&gt;
+
+  &lt;label for=&quot;area&quot;&gt;Área&lt;/label&gt;
+  &lt;select id=&quot;area&quot; name=&quot;area&quot; required&gt;
+    &lt;option value=&quot;&quot;&gt;Elegí una opción&lt;/option&gt;
+    &lt;option value=&quot;sonido&quot;&gt;Sonido&lt;/option&gt;
+    &lt;option value=&quot;prensa&quot;&gt;Prensa y redes&lt;/option&gt;
+  &lt;/select&gt;
+
+  &lt;label for=&quot;mensaje&quot;&gt;Contanos por qué querés participar&lt;/label&gt;
+  &lt;textarea id=&quot;mensaje&quot; name=&quot;mensaje&quot; rows=&quot;5&quot; maxlength=&quot;500&quot;&gt;&lt;/textarea&gt;
+
+  &lt;button type=&quot;submit&quot;&gt;Enviar&lt;/button&gt;
+
+&lt;/form&gt;</code></pre></div>
+<h3>Elegí el tipo de campo según el dato</h3>
+<table class="tabla">
+  <tr><th>type</th><th>Para qué dato</th><th>Regalo que trae</th></tr>
+  <tr><td class="mono">text</td><td>Texto corto y libre: un nombre, una ciudad.</td><td>—</td></tr>
+  <tr><td class="mono">email</td><td>Correo electrónico.</td><td>El navegador verifica que tenga arroba y dominio.</td></tr>
+  <tr><td class="mono">number</td><td>Números: edad, cantidad.</td><td>Admite <code>min</code> y <code>max</code>.</td></tr>
+  <tr><td class="mono">tel</td><td>Teléfono.</td><td>En el celular abre el teclado numérico.</td></tr>
+  <tr><td class="mono">date</td><td>Fechas.</td><td>Muestra un calendario para elegir.</td></tr>
+  <tr><td class="mono">radio</td><td>Una sola opción entre varias.</td><td>Se agrupan con el mismo <code>name</code>.</td></tr>
+  <tr><td class="mono">checkbox</td><td>Varias opciones a la vez.</td><td>—</td></tr>
+</table>
+<h3>Atributos</h3>
+<table class="tabla">
+  <tr><th>Atributo</th><th>Qué hace</th></tr>
+  <tr><td class="mono">name</td><td>El nombre del dato cuando se envía. Sin <code>name</code>, el campo no viaja.</td></tr>
+  <tr><td class="mono">id</td><td>Identifica el campo dentro de la página. Es lo que engancha con el <code>for</code> del label.</td></tr>
+  <tr><td class="mono">placeholder</td><td>Texto de ayuda dentro del campo. <b>No reemplaza al label.</b></td></tr>
+  <tr><td class="mono">required</td><td>No deja enviar el formulario si el campo está vacío.</td></tr>
+  <tr><td class="mono">maxlength</td><td>Limita la cantidad de caracteres.</td></tr>
+</table>
+<aside class="note note-clave"><b>Sin un servidor detrás,</b> el formulario no manda los datos a ningún lado. Para este nivel está bien: lo que se evalúa es que esté correctamente construido.</aside><aside class="note note-ojo"><b>«Hago clic en el texto y no pasa nada»</b> → el <code>for</code> del label no coincide con el <code>id</code> del input.</aside></section><section id="multimedia" class="tema"><h3 class="tema-h"><span class="ab">&lt;</span>Video y audio<span class="ab">&gt;</span></h3>
+<div class="code"><div class="code-bar"><span class="lang">HTML</span><button class="copy" type="button">copiar</button></div><pre><code class="language-html">&lt;video src=&quot;video/resumen.mp4&quot; poster=&quot;img/portada.jpg&quot; controls width=&quot;640&quot;&gt;
+  Tu navegador no admite la etiqueta video.
+&lt;/video&gt;
+
+&lt;audio src=&quot;video/tema.mp3&quot; controls&gt;&lt;/audio&gt;</code></pre></div>
+<table class="tabla">
+  <tr><th>Atributo</th><th>Qué hace</th></tr>
+  <tr><td class="mono">src</td><td>La ruta al archivo. <code>.mp4</code> para video, <code>.mp3</code> para audio.</td></tr>
+  <tr><td class="mono">controls</td><td>Muestra los botones de reproducción. <b>Sin esto el reproductor es invisible.</b></td></tr>
+  <tr><td class="mono">poster</td><td>La imagen de portada, lo que se ve antes de darle play.</td></tr>
+</table>
+<p>El texto que va <b>entre</b> las etiquetas es el respaldo: solo aparece si el navegador no puede reproducir el archivo.</p>
+<aside class="note note-clave"><b>Etiqueta nativa o YouTube:</b> la rúbrica califica más alto un archivo propio con <code>&lt;video&gt;</code> o <code>&lt;audio&gt;</code> que un <code>iframe</code> de YouTube. El iframe es válido, pero es el plan B.</aside><aside class="note note-ojo"><b>Ojo con el peso:</b> usá un fragmento de 30 a 60 segundos. Un video largo hace que el <code>.zip</code> no se pueda entregar.</aside></section><section id="responsive" class="tema"><h3 class="tema-h"><span class="ab">&lt;</span>Responsive<span class="ab">&gt;</span></h3>
+<p>Un diseño responsive es agua: toma la forma del recipiente. Un diseño con anchos fijos en píxeles es un cubito de hielo: entra o no entra. Son tres ingredientes.</p>
+<div class="code"><div class="code-bar"><span class="lang">HTML</span><button class="copy" type="button">copiar</button></div><pre><code class="language-html">&lt;!-- 1. En el &lt;head&gt; de LAS CUATRO páginas --&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;</code></pre></div><div class="code"><div class="code-bar"><span class="lang">CSS</span><button class="copy" type="button">copiar</button></div><pre><code class="language-css">/* 2. Imágenes que nunca desbordan */
+img { max-width: 100%; height: auto; }
+
+
+/* 3. Media queries: SIEMPRE al final del archivo */
+@media (max-width: 768px) {
+  .tarjeta { width: 45%; }        /* dos por fila */
+}
+
+@media (max-width: 480px) {
+  .menu ul { flex-direction: column; }   /* el menú se apila */
+  .tarjeta { width: 100%; }              /* una por fila     */
+  p        { text-align: left; }
+}</code></pre></div><aside class="note note-clave"><b>Una media query es una condición:</b> «si la pantalla mide como máximo 480 px de ancho, aplicá estas reglas». Adentro va CSS común y corriente.</aside><aside class="note note-ojo"><b>«La página se mueve para los costados»</b> → hay un elemento con ancho fijo más grande que la pantalla. Buscá anchos en <code>px</code> y cambialos por porcentajes o <code>max-width</code>.</aside>
+<p>Para probarlo: <b>F12</b> → ícono de dispositivo (arriba a la izquierda del panel) → elegí un modelo de celular y recorré las cuatro páginas.</p>
+</section><div class="clase-sep"><span class="clase-n">Consulta</span><h2>Cuando algo falla</h2></div><section id="errores" class="tema"><h3 class="tema-h"><span class="ab">&lt;</span>Diccionario de errores<span class="ab">&gt;</span></h3><p>Buscá el síntoma en la primera columna.</p><table class="tabla tabla-err"><tr><th>Se ve así</th><th>Qué pasó</th><th>Cómo se arregla</th></tr><tr><td>El navegador muestra el código en vez de la página</td><td>El archivo se guardó como <code>.txt</code></td><td>Guardar de nuevo escribiendo la extensión <code>.html</code> a mano. Activar la vista de extensiones en el explorador.</td></tr><tr><td>Aparecen <span class='mono'>Ã¡</span>, <span class='mono'>Ã±</span></td><td>Falta el <code>meta charset</code></td><td>Agregar <code>&lt;meta charset="UTF-8"&gt;</code> en el head.</td></tr><tr><td>La imagen no se ve: ícono roto</td><td>Ruta mal escrita, o mayúsculas distintas</td><td>Verificar que el nombre coincida <b>exactamente</b>, incluidas mayúsculas.</td></tr><tr><td>El enlace da error 404</td><td>El nombre del archivo no coincide</td><td>Copiar y pegar el nombre exacto del archivo.</td></tr><tr><td>Funciona en tu compu y en otra no</td><td>Se usó una ruta absoluta del disco</td><td>Reemplazar por ruta relativa desde la carpeta del proyecto.</td></tr><tr><td>La tabla se desarma</td><td>Sobran o faltan <code>td</code> después de un <code>colspan</code> o <code>rowspan</code></td><td>Contar celda por celda cada fila.</td></tr><tr><td>El ancla no salta</td><td>El <code>id</code> no existe, está repetido o tiene un espacio</td><td>El id es único por página, sin espacios.</td></tr><tr><td>No se aplica ningún estilo</td><td>Falta el <code>&lt;link&gt;</code>, está fuera del head o la ruta es incorrecta</td><td>Verificar <code>href="css/estilos.css"</code> dentro del head.</td></tr><tr><td>El estilo se aplica solo en la página de inicio</td><td>El CSS se vinculó en un solo archivo</td><td>Copiar la línea <code>&lt;link&gt;</code> a las cuatro páginas.</td></tr><tr><td>Una clase no funciona</td><td>En el HTML se escribió <code>class=".tarjeta"</code></td><td>En el HTML el nombre va sin punto: <code>class="tarjeta"</code>.</td></tr><tr><td>Una regla y todas las de abajo dejan de andar</td><td>Falta un punto y coma o una llave</td><td>Formatear con <b>Shift + Alt + F</b>: donde se desarma la indentación está el error.</td></tr><tr><td>El hover no se ve</td><td>Las pseudo-clases están en el orden equivocado</td><td>link, visited, hover, active. Siempre en ese orden.</td></tr><tr><td>El video no se reproduce</td><td>Formato no compatible o ruta incorrecta</td><td>Convertir a <code>.mp4</code> y verificar la carpeta <code>video/</code>.</td></tr><tr><td>El video no se ve, pero tampoco da error</td><td>Falta el atributo <code>controls</code></td><td>Sin <code>controls</code> el reproductor es invisible.</td></tr><tr><td>En el celular la página se ve diminuta</td><td>Falta el <code>meta viewport</code></td><td>Agregarlo en el head de las cuatro páginas.</td></tr><tr><td>Las media queries no hacen efecto</td><td>Están escritas antes que las reglas generales</td><td>Moverlas al <b>final</b> del archivo CSS.</td></tr></table></section><section id="glosario" class="tema"><h3 class="tema-h"><span class="ab">&lt;</span>Glosario<span class="ab">&gt;</span></h3><dl class="glosario"><div class="gl"><dt>Etiqueta</dt><dd>La marca que envuelve el contenido y dice qué es: <code>&lt;p&gt;texto&lt;/p&gt;</code>. Casi todas se abren y se cierran.</dd></div><div class="gl"><dt>Atributo</dt><dd>Información extra que va dentro de la etiqueta de apertura: <code>&lt;img <b>src</b>="..." <b>alt</b>="..."&gt;</code>.</dd></div><div class="gl"><dt>Anidar</dt><dd>Meter una etiqueta dentro de otra. Se cierran en el orden inverso al que se abrieron.</dd></div><div class="gl"><dt>Indentar</dt><dd>Correr el código hacia la derecha para que se vea qué está adentro de qué. La rúbrica lo evalúa.</dd></div><div class="gl"><dt>Semántica</dt><dd>Que la etiqueta elegida signifique lo que el contenido es, y no solo cómo se ve.</dd></div><div class="gl"><dt>Selector</dt><dd>En CSS, la parte que dice a qué elementos se les aplica la regla.</dd></div><div class="gl"><dt>Propiedad y valor</dt><dd>Lo que se cambia y cuánto: <code>color: #7A2E2E;</code></dd></div><div class="gl"><dt>Cascada</dt><dd>Si dos reglas chocan, gana la más específica; a igual especificidad, gana la última escrita.</dd></div><div class="gl"><dt>Ruta relativa</dt><dd>La dirección de un archivo tomada desde la carpeta del proyecto: <code>img/foto.jpg</code>.</dd></div><div class="gl"><dt>Responsive</dt><dd>Que el sitio se acomode al ancho de la pantalla en la que se lo mira.</dd></div></dl></section></main>
+</div>
+
+<footer class="pie">
+  <div class="pie-in">
+    <p>Material de estudio de la cátedra de Diseño Web — Nivel Fundamentos. Los contenidos siguen el temario de certificación del nivel, con el agregado de diseño responsive.</p>
+  </div>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  if (window.hljs) { try { hljs.highlightAll(); } catch (e) {} }
+
+  document.querySelectorAll('.copy').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var pre = btn.closest('.code').querySelector('code');
+      var txt = pre.innerText;
+      var done = function () { btn.textContent = 'copiado'; btn.classList.add('ok');
+        setTimeout(function () { btn.textContent = 'copiar'; btn.classList.remove('ok'); }, 1600); };
+      var fail = function () { btn.textContent = 'seleccionalo';
+        setTimeout(function () { btn.textContent = 'copiar'; }, 1800); };
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(txt).then(done, function () { legacy(); });
+        } else { legacy(); }
+      } catch (e) { fail(); }
+      function legacy() {
+        try {
+          var ta = document.createElement('textarea');
+          ta.value = txt; ta.style.position = 'fixed'; ta.style.opacity = '0';
+          document.body.appendChild(ta); ta.select();
+          var ok = document.execCommand('copy');
+          document.body.removeChild(ta);
+          ok ? done() : fail();
+        } catch (e) { fail(); }
+      }
+    });
+  });
+
+  var links = Array.prototype.slice.call(document.querySelectorAll('.side a'));
+  var map = {};
+  links.forEach(function (a) { map[a.getAttribute('href').slice(1)] = a; });
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        var a = map[en.target.id];
+        if (!a) return;
+        if (en.isIntersecting) { links.forEach(function (l) { l.classList.remove('on'); }); a.classList.add('on'); }
+      });
+    }, { rootMargin: '-10% 0px -75% 0px' });
+    document.querySelectorAll('section.tema').forEach(function (s) { io.observe(s); });
+  }
+});
+</script>
+
+</body>
+</html>
