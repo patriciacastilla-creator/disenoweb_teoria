@@ -1,0 +1,10 @@
+Guardá acá el video (.mp4) o el audio (.mp3) del proyecto.
+
+video:
+<video src="video/resumen.mp4" poster="img/portada.jpg" controls width="640"></video>
+
+audio:
+<audio src="video/tema.mp3" controls></audio>
+
+Ojo con el peso: un video de más de 20 MB hace que el zip sea enorme.
+Si tu video es largo, usá un fragmento de 30 a 60 segundos.

@@ -1,0 +1,10 @@
+Guardá acá TODAS las imágenes del sitio.
+
+Formatos:
+  .jpg  fotografías
+  .png  logos y dibujos que necesitan fondo transparente
+  .svg  logos e íconos vectoriales (no se pixelan nunca)
+  .gif  animaciones simples
+
+Nombres en minúscula y sin espacios: escenario-principal.jpg
+Redimensioná las fotos antes de subirlas: nada de imágenes de 5000 px de ancho.
