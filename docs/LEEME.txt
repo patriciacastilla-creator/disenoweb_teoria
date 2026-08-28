@@ -1,5 +1,0 @@
-Guardá acá el documento PDF que vas a enlazar desde el sitio
-(reglamento, catálogo, programa, receta, ficha técnica...).
-
-El enlace se hace así:
-<a href="docs/reglamento.pdf" target="_blank" rel="noopener">Reglamento (PDF)</a>
